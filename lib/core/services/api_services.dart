@@ -32,28 +32,28 @@ class ApiService {
         'id': '1',
         'name': 'Organic Tomatoes',
         'price': 3.99,
-        'image': 'assets/tomatoes.jpg',
+        'image': 'assets/images/tomatoes.jpeg',
         'rating': 4.8
       },
       {
         'id': '2',
         'name': 'Fresh Avocados',
         'price': 5.49,
-        'image': 'assets/avocado.jpg',
+        'image': 'assets/images/avocado.jpeg',
         'rating': 4.6
       },
       {
         'id': '3',
         'name': 'Organic Spinach',
         'price': 2.99,
-        'image': 'assets/spinach.jpg',
+        'image': 'assets/images/spinach.jpeg',
         'rating': 4.7
       },
       {
         'id': '4',
         'name': 'Fresh Strawberries',
         'price': 4.99,
-        'image': 'assets/strawberries.jpg',
+        'image': 'assets/images/strawberries.jpeg',
         'rating': 4.9
       },
     ];
@@ -66,9 +66,9 @@ class ApiService {
     await Future.delayed(const Duration(seconds: 1)); // Simulate network delay
     
     return [
-      'assets/banner1.jpg',
-      'assets/banner2.jpg',
-      'assets/banner3.jpg',
+    "assets/banner_images/banner1.jpg",
+    "assets/banner_images/banner2.png",
+    "assets/banner_images/banner3.png",
     ];
   }
 }

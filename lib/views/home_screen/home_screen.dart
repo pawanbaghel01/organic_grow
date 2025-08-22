@@ -19,14 +19,8 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Organic Grow'),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: const Icon(Icons.shopping_cart),
-            onPressed: () {},
-          ),
+          IconButton(icon: const Icon(Icons.search), onPressed: () {}),
+          IconButton(icon: const Icon(Icons.shopping_cart), onPressed: () {}),
         ],
       ),
       body: SmartRefresher(
@@ -34,9 +28,7 @@ class HomeScreen extends StatelessWidget {
         onRefresh: _onRefresh,
         enablePullDown: true,
         enablePullUp: false,
-        header: const WaterDropHeader(
-          waterDropColor: Colors.green,
-        ),
+        header: const WaterDropHeader(waterDropColor: Colors.green),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,17 +36,17 @@ class HomeScreen extends StatelessWidget {
               // Carousel Slider with Obx
               Obx(() => _buildCarouselSlider()),
               const SizedBox(height: 16),
-              
+
               // Categories Section with Obx
               Obx(() => _buildCategoriesSection()),
               const SizedBox(height: 24),
-              
+
               // Featured Products Section with Obx
               Obx(() => _buildFeaturedProductsSection()),
               const SizedBox(height: 24),
-              
+
               // Special Offers Section
-              _buildSpecialOffersSection(),
+              Obx(() => _buildSpecialOffersSection()),
               const SizedBox(height: 24),
             ],
           ),
@@ -73,7 +65,7 @@ class HomeScreen extends StatelessWidget {
     if (homeController.isLoading.value) {
       return _buildCarouselShimmer();
     }
-    
+
     return Column(
       children: [
         CarouselSlider(
@@ -93,21 +85,7 @@ class HomeScreen extends StatelessWidget {
                   gradient: LinearGradient(
                     begin: Alignment.bottomCenter,
                     end: Alignment.topCenter,
-                    colors: [
-                      Colors.black.withOpacity(0.7),
-                      Colors.transparent,
-                    ],
-                  ),
-                ),
-                child: const Center(
-                  child: Text(
-                    'Fresh Organic Products\nUp to 30% OFF',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    colors: [Colors.black.withOpacity(0.7), Colors.transparent],
                   ),
                 ),
               ),
@@ -121,23 +99,25 @@ class HomeScreen extends StatelessWidget {
             autoPlayCurve: Curves.fastOutSlowIn,
             enableInfiniteScroll: true,
             autoPlayAnimationDuration: const Duration(milliseconds: 800),
-            viewportFraction: 0.8,
+            viewportFraction: 1,
             onPageChanged: (index, reason) {
               homeController.updateCarouselIndex(index);
             },
           ),
         ),
         const SizedBox(height: 12),
-        Obx(() => AnimatedSmoothIndicator(
-          activeIndex: homeController.currentCarouselIndex.value,
-          count: homeController.banners.length,
-          effect: const ExpandingDotsEffect(
-            dotHeight: 8,
-            dotWidth: 8,
-            activeDotColor: Colors.green,
-            dotColor: Colors.grey,
+        Obx(
+          () => AnimatedSmoothIndicator(
+            activeIndex: homeController.currentCarouselIndex.value,
+            count: homeController.banners.length,
+            effect: const ExpandingDotsEffect(
+              dotHeight: 8,
+              dotWidth: 8,
+              activeDotColor: Colors.green,
+              dotColor: Colors.grey,
+            ),
           ),
-        )),
+        ),
       ],
     );
   }
@@ -146,7 +126,7 @@ class HomeScreen extends StatelessWidget {
     if (homeController.isLoading.value) {
       return _buildCategoriesShimmer();
     }
-    
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -154,10 +134,7 @@ class HomeScreen extends StatelessWidget {
         children: [
           const Text(
             'Categories',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16),
           SizedBox(
@@ -168,7 +145,7 @@ class HomeScreen extends StatelessWidget {
               itemBuilder: (context, index) {
                 final category = homeController.categories[index];
                 final icon = _getIconFromString(category.icon);
-                
+
                 return Padding(
                   padding: const EdgeInsets.only(right: 16),
                   child: Column(
@@ -180,11 +157,7 @@ class HomeScreen extends StatelessWidget {
                           color: Colors.green.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(16),
                         ),
-                        child: Icon(
-                          icon,
-                          color: Colors.green,
-                          size: 32,
-                        ),
+                        child: Icon(icon, color: Colors.green, size: 32),
                       ),
                       const SizedBox(height: 8),
                       Text(
@@ -209,7 +182,7 @@ class HomeScreen extends StatelessWidget {
     if (homeController.isLoading.value) {
       return _buildProductsShimmer();
     }
-    
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -217,10 +190,7 @@ class HomeScreen extends StatelessWidget {
         children: [
           const Text(
             'Featured Products',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16),
           GridView.builder(
@@ -235,7 +205,7 @@ class HomeScreen extends StatelessWidget {
             itemCount: homeController.featuredProducts.length,
             itemBuilder: (context, index) {
               final product = homeController.featuredProducts[index];
-              
+
               return Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -272,9 +242,7 @@ class HomeScreen extends StatelessWidget {
                         children: [
                           Text(
                             product.name,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                           const SizedBox(height: 4),
                           Row(
@@ -312,6 +280,9 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildSpecialOffersSection() {
+    if (homeController.isLoading.value) {
+      return _buildSpecialOffersShimmer();
+    }
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -319,14 +290,11 @@ class HomeScreen extends StatelessWidget {
         children: [
           const Text(
             'Special Offers',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16),
           Container(
-            height: 120,
+            height: 140,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.centerLeft,
@@ -354,10 +322,7 @@ class HomeScreen extends StatelessWidget {
                         const SizedBox(height: 8),
                         const Text(
                           'On your first order',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                          ),
+                          style: TextStyle(color: Colors.white, fontSize: 14),
                         ),
                         const SizedBox(height: 12),
                         Container(
@@ -384,11 +349,7 @@ class HomeScreen extends StatelessWidget {
                 ),
                 const SizedBox(
                   width: 120,
-                  child: Icon(
-                    Icons.local_offer,
-                    color: Colors.white,
-                    size: 64,
-                  ),
+                  child: Icon(Icons.local_offer, color: Colors.white, size: 64),
                 ),
               ],
             ),
@@ -397,7 +358,7 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
-
+  
   Widget _buildBottomNavigationBar() {
     return BottomNavigationBar(
       currentIndex: 0,
@@ -407,22 +368,13 @@ class HomeScreen extends StatelessWidget {
       showSelectedLabels: true,
       showUnselectedLabels: true,
       items: const [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: 'Home',
-        ),
+        BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
         BottomNavigationBarItem(
           icon: Icon(Icons.category),
           label: 'Categories',
         ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.favorite),
-          label: 'Favorites',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.person),
-          label: 'Profile',
-        ),
+        BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favorites'),
+        BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
       ],
     );
   }
@@ -451,10 +403,7 @@ class HomeScreen extends StatelessWidget {
         children: [
           const Text(
             'Categories',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16),
           SizedBox(
@@ -479,11 +428,7 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 8),
-                        Container(
-                          width: 50,
-                          height: 10,
-                          color: Colors.white,
-                        ),
+                        Container(width: 50, height: 10, color: Colors.white),
                       ],
                     ),
                   ),
@@ -504,10 +449,7 @@ class HomeScreen extends StatelessWidget {
         children: [
           const Text(
             'Featured Products',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16),
           GridView.builder(
@@ -574,6 +516,34 @@ class HomeScreen extends StatelessWidget {
                 ),
               );
             },
+          ),
+        ],
+      ),
+    );
+  }
+  
+
+  Widget _buildSpecialOffersShimmer() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Special Offers',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 16),
+          Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.grey[100]!,
+            child: Container(
+              height: 140,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+              ),
+            ),
           ),
         ],
       ),
