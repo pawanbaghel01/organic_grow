@@ -32,7 +32,9 @@ class SplashScreen extends StatelessWidget {
                           height: 150,
                           decoration: const BoxDecoration(
                             image: DecorationImage(
-                              image: AssetImage('assets/logo.png'), 
+                              image: AssetImage(
+                                'assets/banner_images/banner3.png',
+                              ),
                               fit: BoxFit.contain,
                             ),
                           ),
@@ -83,7 +85,7 @@ class SplashScreen extends StatelessWidget {
                 // Loading animation (appears after main animation)
                 if (controller.isAnimationCompleted)
                   Lottie.asset(
-                    'assets/loading_animation.json', // Add a loading animation
+                    'assets/banner_images/banner2.png', // Add a loading animation
                     width: 100,
                     height: 100,
                   ),

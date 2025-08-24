@@ -49,7 +49,7 @@ class SplashController extends GetxController
   void navigateToHome() {
     Future.delayed(const Duration(seconds: 3), () {
       print("navigate to login page");
-      Get.offAllNamed(RouteConstant.homePage);
+      Get.offAllNamed(RouteConstant.dashBoardPae);
     });
   }
 
